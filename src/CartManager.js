@@ -40,6 +40,7 @@ class CartManager {
             }
             this.carts.push(newCart)
             this.saveCartsToFile()
+            this.maxId ++
             return newCart.id
         } catch (error) {
             return error
@@ -49,7 +50,7 @@ class CartManager {
     getCartProducts(cartId){
         if(this.setCartsFromFile()){
             let cartFound =this.carts.find((cart)=>{
-                return cart.Id == cartId
+                return cart.id == cartId
             })
             if(cartFound== undefined){
                 return "Not Found"
@@ -63,19 +64,24 @@ class CartManager {
     addProductsToCart(cartId,productId){
         if(this.setCartsFromFile()){
             let indexCartFound = this.carts.findIndex((cart)=>{
-                return cart.Id == cartId
+                return cart.id == cartId
             })
             if(indexCartFound != -1){
                 let indexCartProduct = this.carts[indexCartFound].products.findIndex((product)=>{
                     return product.Id == productId
                 })
-                if(indexCartProduct != -1){
+                console.log(indexCartFound)
+                console.log("73"+indexCartProduct)
+                if(indexCartProduct != -1 && this.carts[indexCartFound].products.length>0 ){
+                    console.log("76")
                     let quantityActual = this.carts[indexCartFound].products[indexCartProduct].quantity
                     this.carts[indexCartFound].products[indexCartProduct].quantity = quantityActual +1
                 }else{
-                    this.carts[indexCartFound].products.push(productId)
+                    console.log("80")
+                    this.carts[indexCartFound].products.push({Id:productId,quantity:1})
+                    console.log(this.carts[indexCartFound].products)
                 }
-                this.saveCartsToFile
+                this.saveCartsToFile()
                 return "producto agregado"
             }else{
                 return "Not Found cart with id " + cartId
