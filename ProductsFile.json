@@ -1,0 +1,11 @@
+[
+    {
+        "title": "Guitarra",
+        "description": "Una guitarra comun",
+        "price": 300,
+        "thumbnail": "https://wwww.google.com.ar",
+        "code": "123G",
+        "stock": 10,
+        "Id": 1
+    }
+]
