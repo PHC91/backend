@@ -1,11 +1,1 @@
-[
-    {
-        "title": "Guitarra",
-        "description": "Una guitarra comun",
-        "price": 300,
-        "thumbnail": "https://wwww.google.com.ar",
-        "code": "123G",
-        "stock": 10,
-        "Id": 1
-    }
-]
+[{"title":"Guitarra30","description":"Una guitarra comun","price":300,"thumbnail":"https://wwww.google.com.ar","code":"195G","stock":10,"Id":1}]

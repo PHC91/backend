@@ -1,1 +1,19 @@
- <script src="/public/js/realTimeProducts.js"type="text/javascript"></script>
+<div id="DivLista">
+    <h1>Hola!!</h1>
+</div>
+    <script src="/socket.io/socket.io.js" type="text/javascript"></script>
+<script>
+const socket = io()
+console.log("Hola!")
+let div = document.getElementById("DivLista")
+let contenidoDiv =''
+
+socket.on("updateProduct",data =>{
+    console.log(data)
+    data.forEach((i)=>{
+        contenidoDiv+= i.title +'\n'
+    })
+    div.innerHTML = contenidoDiv
+})
+
+</script>

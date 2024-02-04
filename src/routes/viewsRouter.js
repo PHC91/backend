@@ -8,7 +8,7 @@ router.get('/',(req,res)=>{
         name:"CJ",
         id:1
     }
-    res.render('index',user)
+    res.render('realTimeProducts',user)
 })
 
 export default router

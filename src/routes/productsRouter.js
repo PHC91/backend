@@ -4,6 +4,7 @@ const router = Router()
 const manager = new ProductManager('../ProductsFile.json')
 
 
+
 router.get('/',async (req,res)=>{
     try {
         let products =  manager.getProducts()
@@ -50,6 +51,8 @@ router.post('/',async (req,res)=>{
             let resManager = manager.addProducts(product)
             console.log(resManager)
             if(resManager == "Se agrego el producto "+product.title){
+                req.app.io.emit('updateProduct',manager.getProducts())
+                //socketRouter.emit('updateProduct')
                 res.status(201).json("Producto agregado correctamente")
             }else{
                 res.status(400).json({Error:resManager})
