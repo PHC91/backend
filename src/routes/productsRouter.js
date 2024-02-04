@@ -95,6 +95,7 @@ router.delete('/:pid',async (req,res)=>{
             let resManager = manager.deleteProductById(req.params.pid)
             console.log(resManager)
             if(resManager == "Deleted product with id "+req.params.pid){
+                req.app.io.emit('updateProduct',manager.getProducts())
                 res.status(200).json("Producto eliminado correctamente")
             }else{
                 res.status(400).json({Error:resManager})

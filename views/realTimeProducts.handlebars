@@ -6,13 +6,18 @@
 const socket = io()
 console.log("Hola!")
 let div = document.getElementById("DivLista")
+div.innerHTML =''
 let contenidoDiv =''
+
 
 socket.on("updateProduct",data =>{
     console.log(data)
+    contenidoDiv =''
     data.forEach((i)=>{
         contenidoDiv+= i.title +'\n'
     })
+    
+    div.innerHTML =''
     div.innerHTML = contenidoDiv
 })
 
