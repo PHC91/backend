@@ -1,5 +1,5 @@
 import express from 'express'
-
+import mongoose, { mongo } from 'mongoose'
 import cartsRouter from "./routes/cartRouter.js"
 import productsRouter from "./routes/productsRouter.js"
 import viewsRouter from "./routes/viewsRouter.js"
@@ -12,9 +12,9 @@ import { Server } from 'socket.io';
 const port = 8080
 const app = express()
 
-import ProductManager from "./ProductManager.js"
+// import ProductManager from "./ProductManager.js"
 
-const manager = new ProductManager('../ProductsFile.json')
+// const manager = new ProductManager('../ProductsFile.json')
 
 app.engine('handlebars',handlebars.engine())
 app.set('views',path.join(__dirname,'../views'))
@@ -48,3 +48,8 @@ io.on('connection',(socket)=>{
 
 
 app.io = io;
+
+const uri = "mongodb+srv://pablocuratola:gerardoloco@clustercoder.uhbybep.mongodb.net/?retryWrites=true&w=majority";
+await mongoose.connect(uri)
+console.log("Conectado a Mongo!")
+
