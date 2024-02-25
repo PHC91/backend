@@ -1,0 +1,36 @@
+<div id="DivLista">
+    <h1>Hola!!</h1>
+</div>
+    <script src="/socket.io/socket.io.js" type="text/javascript"></script>
+<script>
+const socket = io()
+const input = document.getElementById("input")
+const message = document.getElementById("message")
+
+input.addEventListener("keydown",(e)=>{
+    const {key} = e;
+    if(key.length ===1 || key ==="Backspace") socket.emit("char",key)
+});
+
+console.log("Hola!")
+let div = document.getElementById("DivLista")
+div.innerHTML =''
+let contenidoDiv =''
+
+
+socket.on("updateProduct",data =>{
+    console.log(data)
+    contenidoDiv =''
+    data.forEach((i)=>{
+        contenidoDiv+= i.title +'\n'
+    })
+    
+    div.innerHTML =''
+    div.innerHTML = contenidoDiv
+})
+
+socket.on("msg",(data)=>{
+    message.innerText = data
+})
+
+</script>
