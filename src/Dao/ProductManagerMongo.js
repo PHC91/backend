@@ -12,7 +12,7 @@ class ProductManagerMongo {
     }
     async addProducts(product) {
         let keys =Object.keys(product)
-        if(keys.includes("title") && keys.includes("description") && keys.includes("price") && keys.includes("thumbnail") && keys.includes("code") && keys.includes("stock") ){
+        if(keys.includes("title") && keys.includes("description") && keys.includes("price") && keys.includes("thumbnail") && keys.includes("code") && keys.includes("stock")&& keys.includes("category") ){
             if(this.validateProduct(product)){
                 let existProduct = await productModel.exists({code:product.code})
                 if(existProduct==null){
@@ -30,9 +30,16 @@ class ProductManagerMongo {
            
     }
 
-    async getProducts(){
-       let products = await productModel.find()
-       return products
+    async getProducts(limit,page,sort){
+        try {
+            let products = await productModel.paginate({},{limit:limit,page:page,sort: { price: sort}})
+            console.log(products)
+            console.log("----------------------------------")
+            return products 
+        } catch (error) {
+            console.log(error)
+        }
+      
     }
 
     async getProductById (productId){

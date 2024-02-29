@@ -5,29 +5,76 @@ const router = Router()
 //const manager = new ProductManager('../ProductsFile.json')
 const managerMongo = new ProductManagerMongo()
 
-
+// router.get('/',async (req,res)=>{
+//     try {
+//         //let products =  manager.getProducts()
+//         let products = await managerMongo.getProducts()
+//         console.log(products)
+//         let {limit,page,query,sort} = req.query
+//         limit = limit? limit:10
+//         page = page?page:1
+//         if(Array.isArray(products)){
+//             if(limit){
+//                 if(limit>0){
+//                     let productsLimited = products.slice(0,limit)
+//                     res.status(200).json({productos:productsLimited})
+//                 }else{
+//                     res.status(400).json({error:"Limit debe ser mayor a cero"})
+//                 }
+//             }else{
+//                 res.status(200).json({productos:products.length>0?products:"No hay productos"})
+//             }
+//         }else{
+//             throw new Error(products)
+//         }
+//     } catch (error) {
+//         res.status(500).json({Error:error})
+//     }
+// })
 
 router.get('/',async (req,res)=>{
     try {
         //let products =  manager.getProducts()
-        let products = await managerMongo.getProducts()
-        let {limit} = req.query
-        if(Array.isArray(products)){
-            if(limit){
-                if(limit>0){
-                    let productsLimited = products.slice(0,limit)
-                    res.status(200).json({productos:productsLimited})
-                }else{
-                    res.status(400).json({error:"Limit debe ser mayor a cero"})
-                }
-            }else{
-                res.status(200).json({productos:products.length>0?products:"No hay productos"})
+       
+        let {limit,page,sort} = req.query
+        limit = limit? limit:10
+        page = page?page:1
+        sort = sort=='asc'?-1:1
+        let products = await managerMongo.getProducts(limit,page,sort)
+        console.log(products)
+        if(products.docs.length>0){
+            let resObject = {
+                status:"success",
+                payload: products.docs,
+                totalPages:products.totalPages,
+                prevPage:products.prevPage,
+                nextPage:products.nextPage,
+                page:products.page,
+                hasPrevPage:products.hasPrevPage,
+                hasNextPage:products.hasNextPage,
+                prevLink:products.prevLink,
+                nextLink:products.nextLink
             }
+            res.status(200).json(resObject)
         }else{
-            throw new Error(products)
+            let resObject = {
+                status:"error",
+                payload: products.docs,
+                totalPages:products.totalPages,
+                prevPage:products.prevPage,
+                nextPage:products.nextPage,
+                page:products.page,
+                hasPrevPage:products.hasPrevPage,
+                hasNextPage:products.hasNextPage,
+                prevLink:products.prevLink,
+                nextLink:products.nextLink
+            }
+            res.status(404).json(resObject)
         }
+        
     } catch (error) {
-        res.status(500).json({Error:error})
+        console.log(error)
+        res.status(500).json({Error:error.message})
     }
 })
 
