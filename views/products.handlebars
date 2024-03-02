@@ -1,0 +1,28 @@
+<div>
+    <h1>Lista de Productos</h1>
+    {{#each payload}}
+        <p>title: {{this.title}}</p>
+        <p>description: {{this.description}}</p>
+        <p>price: {{this.price}}</p>
+        <p>category: {{this.category}}</p>
+        <button>Agregar al Carrito</button>
+ <p>-------------------------------------------------</p>
+    {{/each}}
+</div>
+
+<div>
+    <p>Pagina actual {{page}}</p>
+</div>
+
+{{#if hasPrevPage}}
+    <p>Pagina previa {{prevPage}}</p>
+    <a href="api/views/products?page={{prevPage}}"><button>Anterior</button></a>
+{{/if}}
+
+
+{{#if hasNextPage}}
+    <p>Pagina siguiente {{nextPage}}</p>
+    <a href="api/views/products?page={{nextPage}}"><button>Siguiente</button></a>
+{{/if}}
+
+</div>
