@@ -1,5 +1,6 @@
 import { Router } from "express";
 import ProductManagerMongo from "../Dao/ProductManagerMongo.js";
+import authMdw from "../middleware/auth.middleware.js";
 const router = Router()
 const managerMongo = new ProductManagerMongo()
 
@@ -77,7 +78,7 @@ router.get('/register', async (req,res)=>{
 })
 
 
-router.get('/profile', async (req,res)=>{
+router.get('/profile', authMdw,async (req,res)=>{
     const user = req.session.user
     res.render("profile",{
         user

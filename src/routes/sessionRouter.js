@@ -28,12 +28,13 @@ router.post('/login', async (req,res)=>{
        }
 
        return res.redirect("profile",{
-        last_name: req.session?.user?.last_name || findUser.last_name,
+        firstName: req.session?.user?.first_name || findUser.first_name,
+        lastName: req.session?.user?.last_name || findUser.last_name,
         email:req.session?.user?.email || email,
         age:req.session?.user?.age || findUser.age
        })
     } catch (error) {
-        
+        console.log(error)
     }
 })
 
