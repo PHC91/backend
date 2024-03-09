@@ -1,36 +1,39 @@
 <div id="DivLista">
-    <h1>Hola!!</h1>
+    <h1>Bienvenidos al Chat!</h1>
+    <div>
+        <input type="text" id="chat-box">
+        <button type="button" id="btn-chat-box">Enviar</button>
+    </div>
+    <div>
+        <p id="message-logs"></p>
+    </div>
 </div>
     <script src="/socket.io/socket.io.js" type="text/javascript"></script>
 <script>
+// const Swal = require('sweetalert')
 const socket = io()
-const input = document.getElementById("input")
-const message = document.getElementById("message")
+let user;
+const chatBox = document.getElementById("chat-box")
+const btnChatBox = document.getElementById("btn-chat-box")
 
-input.addEventListener("keydown",(e)=>{
-    const {key} = e;
-    if(key.length ===1 || key ==="Backspace") socket.emit("char",key)
-});
+var nombre = prompt("Ingresar Usuario")
 
-console.log("Hola!")
-let div = document.getElementById("DivLista")
-div.innerHTML =''
-let contenidoDiv =''
-
-
-socket.on("updateProduct",data =>{
-    console.log(data)
-    contenidoDiv =''
-    data.forEach((i)=>{
-        contenidoDiv+= i.title +'\n'
-    })
+btnChatBox.addEventListener("click",(e)=>{
+   
+     
+            socket.emit("message",{user:nombre,message:chatBox.value});
+            chatBox.value ="";
+       
     
-    div.innerHTML =''
-    div.innerHTML = contenidoDiv
 })
+socket.on("messageLogs",(data)=>{
+    const logs = document.getElementById("message-logs")
+    let messages = "";
 
-socket.on("msg",(data)=>{
-    message.innerText = data
+    data.forEach(obj =>{
+        messages +='<p>'+obj.user + ' dice: '+obj.message + '</p' + '\n'
+    })
+    logs.innerHTML = messages
 })
 
 </script>

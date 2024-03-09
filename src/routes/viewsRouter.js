@@ -12,6 +12,15 @@ router.get('/',(req,res)=>{
 })
 
 
+
+router.get('/chat',(req,res)=>{
+    // let user ={
+    //     name:"CJ",
+    //     id:1
+    // }
+    res.render('chat')
+})
+
 router.get('/products',async (req,res)=>{
     try {
         //let products =  manager.getProducts()
@@ -57,6 +66,22 @@ router.get('/products',async (req,res)=>{
         console.log(error)
         res.status(500).json({Error:error.message})
     }
+})
+
+router.get('/login', async (req,res)=>{
+    res.render("login");
+})
+
+router.get('/register', async (req,res)=>{
+    res.render("register");
+})
+
+
+router.get('/profile', async (req,res)=>{
+    const user = req.session.user
+    res.render("profile",{
+        user
+    });
 })
 
 export default router
