@@ -32,8 +32,10 @@ router.get('/products',async (req,res)=>{
         sort = sort=='asc'?-1:1
         let products = await managerMongo.getProducts(limit,page,sort)
         console.log(products)
+        const user = req.session.user
         if(products.docs.length>0){
             let resObject = {
+                user:user,
                 status:"success",
                 payload: products.docs,
                 totalPages:products.totalPages,
@@ -48,6 +50,7 @@ router.get('/products',async (req,res)=>{
             res.render('products',resObject)
         }else{
             let resObject = {
+                user:user,
                 status:"error",
                 payload: products.docs,
                 totalPages:products.totalPages,
