@@ -11,7 +11,30 @@ router.get('/logout', async (req,res)=>{
 })
 
 router.post('/login', async (req,res)=>{
-    
+    try {
+       const {email,password} = req.body
+       const session = req.session 
+       console.log(
+        "session.routes.js", session
+       )
+       const findUser= await userModel.findOne({email})
+       if(!findUser) return res.json({message:"user not register"})
+       if(findUser.password!== password) {
+        return res.json({message:"wrong passord"})
+       }
+       req.session.user = {
+        ...findUser,
+        password:null
+       }
+
+       return res.redirect("profile",{
+        last_name: req.session?.user?.last_name || findUser.last_name,
+        email:req.session?.user?.email || email,
+        age:req.session?.user?.age || findUser.age
+       })
+    } catch (error) {
+        
+    }
 })
 
 router.post('/register', async (req,res)=>{
