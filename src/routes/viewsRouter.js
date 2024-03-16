@@ -73,7 +73,7 @@ router.get('/products',async (req,res)=>{
     }
 })
 
-router.get('/login', async (req,res)=>{
+router.get('/login',passport.authenticate('login',{failureRedirect:'/faillogin'}),async (req,res)=>{
     res.render("login");
 })
 
@@ -81,6 +81,9 @@ router.get('/register',passport.authenticate('register',{failureRedirect:"/failr
     res.render("register");
 })
 
+router.get('/faillogin', async (req,res)=>{
+    res.send({error:"register strategy failed"});
+})  
 
 router.get('/failregister', async (req,res)=>{
     res.send({error:"register strategy failed"});
