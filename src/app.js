@@ -21,6 +21,11 @@ const app = express()
 
 import { messageModel } from './Dao/models/messages.model.js'
 
+const initializePassport = require('./config/passport.config.js')
+
+const passport = require("passport")
+const local = require("passport-local")
+
 // import ProductManager from "./ProductManager.js"
 
 // import ProductManagerMongo from './Dao/ProductManagerMongo.js'
@@ -40,6 +45,14 @@ app.use(body_parser.urlencoded({
 }));
 app.use(body_parser.json());
 app.use(cookieParser())
+
+app.use(
+   passport.initialize()
+)
+
+app.use(
+    passport.session()
+ )
 
 app.use(session({
     store: mongoStore.create({

@@ -3,6 +3,7 @@ import ProductManagerMongo from "../Dao/ProductManagerMongo.js";
 import authMdw from "../middleware/auth.middleware.js";
 const router = Router()
 const managerMongo = new ProductManagerMongo()
+const passport = require("passport")
 
 router.get('/',(req,res)=>{
     let user ={
@@ -76,11 +77,14 @@ router.get('/login', async (req,res)=>{
     res.render("login");
 })
 
-router.get('/register', async (req,res)=>{
+router.get('/register',passport.authenticate('register',{failureRedirect:"/failregister"}), async (req,res)=>{
     res.render("register");
 })
 
 
+router.get('/failregister', async (req,res)=>{
+    res.send({error:"register strategy failed"});
+})  
 router.get('/profile', authMdw,async (req,res)=>{
     const user = req.session.user
     res.render("profile",{
